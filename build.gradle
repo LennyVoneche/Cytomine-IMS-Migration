@@ -53,6 +53,28 @@ dependencies {
     testCompile "org.grails.plugins:geb"
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
+
+
+//    TODO: Migration
+    compile 'be.cytomine.client:cytomine-java-client:2.1.0'
+    compile 'com.vividsolutions:jts:1.13'
+    compile 'net.imagej:ij:1.51h'
+    compile 'com.github.jai-imageio:jai-imageio-core:1.4.0'
+
+    compile group: 'org.grails.plugins', name: 'executor', version: '0.3'
+    compile group: 'org.grails.plugins', name: 'quartz', version: '2.0.13'
+    compile 'org.grails.plugins:quartz:2.0.1'
+
+//    compile ":grails-melody:1.49.0"
+//    build ':tomcat:7.0.54'
+//    compile (':hibernate:3.6.10.17') {
+//        excludes('hibernate-ehcache')
+//    }
+//    runtime ":resources:1.2.8"
+//        runtime ':background-thread:1.6'
+//    runtime ":executor:0.3"
+//    compile ":rest-api-doc:0.6.1"
+//    compile ":quartz:1.0.1"
 }
 
 
