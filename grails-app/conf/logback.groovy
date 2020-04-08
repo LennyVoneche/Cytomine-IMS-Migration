@@ -7,6 +7,12 @@ appender('STDOUT', ConsoleAppender) {
         pattern = "%level %logger - %msg%n"
     }
 }
+//TODO: Migration
+logger'grails.app.init', INFO
+logger'grails.app.domain', INFO
+logger'grails.app.services', INFO
+logger'grails.app.controllers', INFO
+logger'grails.app.jobs', INFO
 
 def targetDir = BuildSettings.TARGET_DIR
 if (Environment.isDevelopmentMode() && targetDir != null) {

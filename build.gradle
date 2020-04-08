@@ -63,7 +63,10 @@ dependencies {
 
     compile group: 'org.grails.plugins', name: 'executor', version: '0.3'
     compile group: 'org.grails.plugins', name: 'quartz', version: '2.0.13'
-    compile 'org.grails.plugins:quartz:2.0.1'
+
+
+//    compile 'org.grails.plugins:quartz:1.0.1'
+//    compile 'org.grails.plugins:grails-melody-plugin:1.80.0'
 
 //    compile ":grails-melody:1.49.0"
 //    build ':tomcat:7.0.54'
