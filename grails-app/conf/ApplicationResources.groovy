@@ -1,5 +1,3 @@
-package cytomine.web
-
 /*
  * Copyright (c) 2009-2018. Authors: see NOTICE file.
  *
@@ -16,27 +14,8 @@ package cytomine.web
  * limitations under the License.
  */
 
-class SecurityFilters {
-    def springSecurityService
-
-    def filters = {
-        all(uri:'/**') {
-            before = {
-                //println "Before security"
-                //tryAPIAuthentification(request,response)
-            }
-            after = {
-                //println "After security"
-
-            }
-            afterView = {
-
-            }
-        }
+modules = {
+    application {
+        resource url:'js/application.js'
     }
-
-
-
 }
-
-

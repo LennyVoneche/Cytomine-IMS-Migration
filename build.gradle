@@ -54,6 +54,7 @@ dependencies {
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
 
+    compile fileTree(dir: 'lib', include: ['*.jar'])
 
 //    TODO: Migration
     compile 'be.cytomine.client:cytomine-java-client:2.1.0'
@@ -62,7 +63,7 @@ dependencies {
     compile 'com.github.jai-imageio:jai-imageio-core:1.4.0'
 
     compile group: 'org.grails.plugins', name: 'executor', version: '0.3'
-    compile group: 'org.grails.plugins', name: 'quartz', version: '2.0.13'
+    compile group: 'org.grails.plugins', name: 'quartz', version: '2.0.10'
 
 
 //    compile 'org.grails.plugins:quartz:1.0.1'
