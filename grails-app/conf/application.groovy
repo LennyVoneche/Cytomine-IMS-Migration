@@ -1,4 +1,11 @@
 //    TODO: Migration
+//image manipulation executable
+cytomine.vips = "vips"
+cytomine.tiffinfo = "tiffinfo"
+cytomine.identify = "identify"
+cytomine.vipsthumbnail = "vipsthumbnail"
+
+//    TODO: Migration
 /*
  * Copyright (c) 2009-2019. Authors: see NOTICE file.
  *
@@ -14,11 +21,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//image manipulation executable
-cytomine.vips = "vips"
-cytomine.tiffinfo = "tiffinfo"
-cytomine.identify = "identify"
-cytomine.vipsthumbnail = "vipsthumbnail"
+
 
 /******************************************************************************
  * EXTERNAL configuration
@@ -224,7 +227,7 @@ environments {
     development {
         dataSource {
             dbCreate = "update"
-            url = "jdbc:h2:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+            url =
             pooled = true
             properties {
                 maxActive = -1

@@ -54,7 +54,7 @@ dependencies {
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
 
-    compile fileTree(dir: 'lib', include: ['*.jar'])
+//    compile fileTree(dir: 'lib', include: ['*.jar'])
 
 //    TODO: Migration
     compile 'be.cytomine.client:cytomine-java-client:2.1.0'
@@ -65,10 +65,24 @@ dependencies {
     compile group: 'org.grails.plugins', name: 'executor', version: '0.3'
     compile group: 'org.grails.plugins', name: 'quartz', version: '2.0.10'
 
+    compile files('lib/commons-io-2.6.jar')
+    compile files('lib/commons-lang3-3.7.jar')
+    compile files('lib/dotslideBuildTool.jar')
+    compile files('lib/pixelmed.jar')
+//    compile files('lib/dotslideTool.jar')
+    compile files('lib/openslide.jar')
+    compile files('lib/sis-base-18.09.0.jar')
+    compile files('lib/sis-jhdf5-19.04.0.jar')
 
+    compile 'org.grails:grails-plugin-filters:3.0.12'
+    compile files('lib/spring-security-core-3.1.4.RELEASE.jar')
+
+//    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+//    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
+//    compile files('lib/commons-io-2.6.jar','lib/commons-lang3-3.7.jar','lib/dotslideBuildTool.jar','lib/pixelmed.jar','lib/dotslideTool.jar','lib/openslide.jar','lib/sis-base-18.09.0.jar','lib/sis-jhdf5-19.04.0.jar','lib/spring-security-core-3.1.4.RELEASE.jar')
+//    compile fileTree (dir: 'lib', include: '*.jar')
 //    compile 'org.grails.plugins:quartz:1.0.1'
 //    compile 'org.grails.plugins:grails-melody-plugin:1.80.0'
-
 //    compile ":grails-melody:1.49.0"
 //    build ':tomcat:7.0.54'
 //    compile (':hibernate:3.6.10.17') {
@@ -86,3 +100,4 @@ assets {
     minifyJs = true
     minifyCss = true
 }
+

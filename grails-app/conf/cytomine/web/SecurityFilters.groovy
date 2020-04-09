@@ -1,4 +1,4 @@
-package be.cytomine.web
+package cytomine.web
 
 /*
  * Copyright (c) 2009-2018. Authors: see NOTICE file.
@@ -16,27 +16,27 @@ package be.cytomine.web
  * limitations under the License.
  */
 
-class RequestFilters {
-
+class SecurityFilters {
     def springSecurityService
 
     def filters = {
-        //all(uri:'/api/**') {
         all(uri:'/**') {
             before = {
-                /*request.currentTime = System.currentTimeMillis()
-                log.info  request.getRequestURI()
-                log.info  request.getRequestURL()
-                log.info  request.getContextPath()
-                log.info  request.getPathInfo()
-                log.info  request.getServletPath()
-                log.info params
-                log.info controllerName+"."+actionName*/
+                //println "Before security"
+                //tryAPIAuthentification(request,response)
             }
-            after = {}
+            after = {
+                //println "After security"
+
+            }
             afterView = {
-                //log.info controllerName+"."+actionName + " Request took ${System.currentTimeMillis()-request.currentTime}ms"
+
             }
         }
     }
+
+
+
 }
+
+
