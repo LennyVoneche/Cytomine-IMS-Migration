@@ -35,7 +35,7 @@ class DeleteImageFileJob {
         println "ok commands : " + commands.toString()
         commands.addParams("after", (new Date().time - timeMargin).toString())
         println "ok commands : " + commands.toString()
-//        commands = commands.fetch()
+        commands = commands.fetch()
         println "ok commands : " + commands.toString()
         log.info commands.toString()
         println "ok commands : " + commands.toString()

@@ -62,7 +62,9 @@ dependencies {
     compile 'net.imagej:ij:1.51h'
     compile 'com.github.jai-imageio:jai-imageio-core:1.4.0'
 
-    compile group: 'org.grails.plugins', name: 'executor', version: '0.3'
+//    compile group: 'org.grails.plugins', name: 'executor', version: '0.3'
+    compile 'org.grails.plugins:grails-executor:0.4'
+
     compile group: 'org.grails.plugins', name: 'quartz', version: '2.0.10'
 
     compile files('lib/commons-io-2.6.jar')

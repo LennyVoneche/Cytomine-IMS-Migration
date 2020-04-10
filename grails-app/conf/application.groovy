@@ -88,6 +88,7 @@ grails.exceptionresolver.params.exclude = ['password']
 // configure auto-caching of queries by default (if false you can cache individual queries with 'cache: true')
 grails.hibernate.cache.queries = false
 
+//TODO: Migration
 environments {
     development {
         grails.logging.jul.usebridge = "true"
@@ -151,9 +152,11 @@ cytomine.ims.charset = "UTF-8"
 
 cytomine.ims.server.url = "http://localhost-ims"
 cytomine.ims.server.core.url = "http://localhost-core"
-cytomine.ims.server.publicKey = " "
-cytomine.ims.server.privateKey = " "
-
+//TODO: Migration
+//cytomine.ims.server.publicKey = " "
+//cytomine.ims.server.privateKey = " "
+cytomine.ims.server.publicKey = "21362ae7-273a-4d34-b4d0-68589be2d8bf"
+cytomine.ims.server.privateKey = "4e97c2c2-eacc-455d-91a7-55d06b60e9bb"
 cytomine.ims.path.buffer = "/tmp/uploaded"
 cytomine.ims.path.storage = "/data/images"
 
@@ -227,7 +230,7 @@ environments {
     development {
         dataSource {
             dbCreate = "update"
-            url =
+            url = "jdbc:h2:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
             pooled = true
             properties {
                 maxActive = -1

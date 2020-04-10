@@ -23,7 +23,7 @@ class BootStrap {
         if (Holders.config.cytomine.ims.server.core.url && Holders.config.cytomine.ims.deleteJob.frequency) {
             DeleteImageFileJob.schedule((Holders.config.cytomine.ims.deleteJob.frequency as Long) * 1000 as long , -1, [:])
         }
-        println "ok"
+        println "bootstrap ok"
 
     }
     def destroy = {

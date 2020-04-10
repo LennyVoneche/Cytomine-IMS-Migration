@@ -120,7 +120,7 @@ class UploadService {
             }
         }
 
-        log.info result
+        log.info result.toString()
         return result
     }
 
