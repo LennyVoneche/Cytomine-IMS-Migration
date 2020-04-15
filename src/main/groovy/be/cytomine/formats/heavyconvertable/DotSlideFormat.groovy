@@ -44,7 +44,7 @@ class DotSlideFormat extends NotNativeFormat implements IHeavyConvertableImageFo
     def convert() {
         println "Conversion DotSlide : begin"
         String name = this.file.name
-
+//TODO: Migration (Utilité de DotSlide)
         // call the dotslide lib
         dotslide.Main.main("-fi", "${this.file.absolutePath}/fi",
                 "-fp", "${this.file.absolutePath}/fp",

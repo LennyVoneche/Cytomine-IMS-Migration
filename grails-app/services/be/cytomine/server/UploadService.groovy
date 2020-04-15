@@ -31,6 +31,7 @@ import be.cytomine.formats.tools.CustomExtensionFormat
 import be.cytomine.formats.tools.CytomineFile
 import be.cytomine.formats.tools.MultipleFilesFormat
 import grails.async.Promises
+import grails.util.Holders
 import groovyx.gpars.GParsExecutorsPool
 import utils.FilesUtils
 
@@ -60,6 +61,7 @@ class UploadService {
      * @return A map with the root UploadedFile and all the generated AbstractImages
      */
     def upload(CytomineConnection userConn, Storage storage, String filename, def filePath, boolean isSync, def projects, def properties) {
+
         if (!filePath) {
             throw new FileNotFoundException("Got an invalid file. Disk can be full.")
         }
@@ -121,6 +123,7 @@ class UploadService {
         }
 
         log.info result.toString()
+
         return result
     }
 
@@ -139,6 +142,7 @@ class UploadService {
      */
     private def deployFile(File currentFile, UploadedFile uploadedFile, def uploadInfo, def result) {
         try {
+
             def file = new CytomineFile(currentFile.absolutePath)
             def deployed = deploy(file, uploadedFile, null, null, uploadInfo)
 
@@ -229,7 +233,9 @@ class UploadService {
         // If the current file is a regular folder, recursively deploy its children but do not create an UF
         if (identifier.isClassicFolder()) {
             def errors = []
-            def nThreads = grailsApplication.config.cytomine.ims.upload.nThreadsPool
+
+            def nThreads = Holders.config.cytomine.ims.upload.nThreadsPool
+
             GParsExecutorsPool.withPool(nThreads) {
                 def outputs = currentFile.listFiles().collectParallel { file ->
                     if (file.name == ".DS_STORE" || file.name.startsWith("__MACOSX"))
@@ -291,8 +297,10 @@ class UploadService {
         uploadedFile.update()
 
         if (!abstractImage && !(format instanceof ArchiveFormat)) {
+
             try {
                 def metadata = format.cytomineProperties()
+                println "UploadService.deploy ok metadata : $metadata"
                 abstractImage = createAbstractImage(uploadInfo.userConn, uploadedFile, metadata)
                 result.images.add(abstractImage)
             }
@@ -302,10 +310,10 @@ class UploadService {
             }
 
         }
-
         if (format instanceof NativeFormat) {
+
             uploadedFile.set("status", UploadedFile.Status.DEPLOYING.code)
-            log.info uploadedFile.get("status")
+            log.info ""  + uploadedFile.get("status")
 
             if (format instanceof MultipleFilesFormat) {
                 File root = format.getRootFile(currentFile)
@@ -345,7 +353,7 @@ class UploadService {
                 errors << e.getMessage()
             }
 
-            def nThreads = grailsApplication.config.cytomine.ims.upload.nThreadsPool
+            def nThreads = Holders.config.cytomine.ims.upload.nThreadsPool
             GParsExecutorsPool.withPool(nThreads) {
                 def outputs = files.collectParallel { file ->
                     def output = [:]
@@ -380,18 +388,21 @@ class UploadService {
     }
 
     private AbstractImage createAbstractImage(CytomineConnection userConn, UploadedFile uploadedFile, def metadata) {
+
         def image = new AbstractImage(uploadedFile, uploadedFile.getStr('originalFilename')).save(userConn)
 
         def props = []
+
         metadata.each {
             props << new Property(image, (String) it.key, (String) it.value)
         }
 
         if (props.size() > 0) {
             log.info "Add ${props.size()} format-dependent properties to ${image}"
-            log.debug properties
+//            log.debug properties
             def promises = props.collect {
                 p -> Promises.task {
+
                     try {
                         p.save(userConn)
                     }
@@ -403,6 +414,7 @@ class UploadService {
             }
             Promises.waitAll(promises)
         }
+
         image.extractUsefulProperties()
 
         return image

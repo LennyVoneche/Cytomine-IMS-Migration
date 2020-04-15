@@ -52,24 +52,17 @@ class StorageController {
     def upload () {
         try {
             // Backwards compatibility
-            println "params.cytomine ok : " + params.cytomine
-            println "params.idStorage ok : " + params.idStorage
-            println "params.idProject ok : " + params.idProject
-
             if (params.cytomine) params.core = params.cytomine
             if (params.idStorage) params.storage = params.idStorage
             if (params.idProject) params.projects = params.idProject
 
-            println "params.core ok : " + params.core
-            println "params.storage ok : " + params.storage
-            println "params.projects ok : " + params.projects
+
 
             String coreURL = params.core
             String ISPublicKey = Holders.config.cytomine.ims.server.publicKey
             String ISPrivateKey = Holders.config.cytomine.ims.server.privateKey
 
-            println "publicKey ok : " + ISPublicKey
-            println "privateKey ok : " + ISPrivateKey
+
 
             log.info "Upload is made on Cytomine = $coreURL with image server $ISPublicKey/$ISPrivateKey key pair"
             CytomineConnection imsConnection = Cytomine.connection(coreURL, ISPublicKey, ISPrivateKey, true)
@@ -77,30 +70,22 @@ class StorageController {
             // Check user authentication
             def authorization = cytomineService.getAuthorizationFromRequest(request)
             def messageToSign = cytomineService.getMessageToSignFromRequest(request)
-            println "authorization ok : " + authorization
-            println "messageToSign ok : " + messageToSign
 
             def keys = Cytomine.getInstance().getKeys(authorization.publicKey)
             log.info keys.getAttr().toString()
             if (!keys)
                 throw new AuthenticationException("Auth failed: User not found! May be ImageServer user is not an admin!")
-            println "ok 1"
 
             if (!cytomineService.testSignature(keys.get('privateKey'), authorization.signature, messageToSign))
             {
-                println "ok 2"
-
                 throw new AuthenticationException("Auth failed.")
             }
-            println "ok 3"
 
             CytomineConnection userConnection = new CytomineConnection(coreURL, (String) keys.get('publicKey'), (String) keys.get('privateKey'))
             def user = userConnection.getCurrentUser()
-            println "user ok : " + user
 
             // Check and get storage
             def storage = new Storage().fetch(userConnection, params.long('storage'))
-            println "storage ok : " + storage
 
             // Check and get projects
             def projects = new Collection(Project.class, 0, 0)
@@ -111,6 +96,7 @@ class StorageController {
             // Get properties
             def propertyKeys = params.list("keys")
             def values = params.list("values")
+
             if (propertyKeys.size() != values.size()) {
                 throw new Exception("Key.size <> Value.size!")
             }
@@ -135,7 +121,6 @@ class StorageController {
                 responseContent.status = 200;
                 responseContent.name = filename
                 def uploadResult = uploadService.upload(userConnection, storage as Storage, filename, filePath, isSync, projects, properties)
-                println "uploadResult ok : " + uploadResult
 
                 responseContent.uploadedFile = uploadResult.uploadedFile.getAttr()
 
@@ -151,7 +136,6 @@ class StorageController {
                 }
                 responseContent.images = images
 
-
             } catch(DeploymentException e){
                 response.status = 500;
                 responseContent.status = 500;
@@ -160,7 +144,6 @@ class StorageController {
             }
 
             responseContent = [responseContent]
-
             render responseContent as JSON
         }
         catch (CytomineException e) {
