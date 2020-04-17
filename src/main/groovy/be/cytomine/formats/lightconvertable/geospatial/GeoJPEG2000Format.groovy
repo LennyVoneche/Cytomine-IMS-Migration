@@ -69,7 +69,7 @@ class GeoJPEG2000Format extends NotNativeFormat implements GdalDetector {
     }
 
     def properties() {
-        def properties = Object.properties()
+        def properties = super.properties()
         properties += new GdalMetadataExtractor(this.file).properties()
 
         return properties

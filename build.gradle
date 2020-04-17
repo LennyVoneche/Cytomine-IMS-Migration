@@ -5,7 +5,7 @@ buildscript {
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-        classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.11.1"
+        classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.14.2"
         classpath "org.grails.plugins:hibernate5:6.0.2"
     }
 }
@@ -54,6 +54,8 @@ dependencies {
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
 
+
+
 //    compile fileTree(dir: 'lib', include: ['*.jar'])
 
 //    TODO: Migration
@@ -77,6 +79,7 @@ dependencies {
     compile files('lib/sis-base-18.09.0.jar')
     compile files('lib/sis-jhdf5-19.04.0.jar')
 
+
     compile 'org.grails:grails-plugin-filters:3.0.12'
 //    TODO: Migration (ne sert à rien)
 //    compile files('lib/spring-security-core-3.1.4.RELEASE.jar')
@@ -97,6 +100,9 @@ dependencies {
 //    runtime ":executor:0.3"
 //    compile ":rest-api-doc:0.6.1"
 //    compile ":quartz:1.0.1"
+//    TODO: Migration 3.2.2 to 3.3.0
+//    compile files('lib/gpars-1.2.1.jar')
+//    testCompile "org.grails:grails-test-mixins:3.3.0"
 }
 
 
