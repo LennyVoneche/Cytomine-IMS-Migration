@@ -86,12 +86,25 @@ class SliceController extends ImageResponseController {
 //            @RestApiParam(name="bits", type="int", paramType = RestApiParamType.QUERY, description = "Output bit depth per channel (see IIP format)", required = false)
 //    ])
     def thumb() {
+        println "SliceController thumb"
+
         String fif = URLDecoder.decode(params.fif,"UTF-8")
+        println "SliceController thumb 1"
+
         int maxSize = params.int('maxSize', 512)
         params.maxSize = maxSize
+        println "SliceController thumb 2"
+
         String mimeType = params.mimeType
+        println "SliceController thumb 3"
+
         NativeFormat imageFormat = new FormatIdentifier(new CytomineFile(fif)).identify(mimeType, true)
+        println "SliceController thumb 4 imageFormat: " + imageFormat
+        println "SliceController thumb 4.1 params: " + params
+
         BufferedImage bufferedImage = imageFormat.thumb(params)
+        println "SliceController thumb 5"
+
         if (bufferedImage) {
             bufferedImage = imageProcessingService.scaleImage(bufferedImage, maxSize, maxSize)
             withFormat {
@@ -100,6 +113,8 @@ class SliceController extends ImageResponseController {
                 tiff { responseBufferedImageTIFF(bufferedImage) }
             }
         }
+        println "SliceController thumb 6"
+
     }
 
 //    @RestApiMethod(description="Get the crop of a slice", extensions = ["jpg", "png", "tiff"])
@@ -185,7 +200,7 @@ class SliceController extends ImageResponseController {
         params.topLeftX = topLeftX
         params.topLeftY = topLeftY
         String cropURL = imageFormat.cropURL(params)
-        log.info cropURL
+        log.info "" + cropURL
         int i = 0
         BufferedImage bufferedImage = ImageIO.read(new URL(cropURL))
         while (bufferedImage == null && i < 3) {

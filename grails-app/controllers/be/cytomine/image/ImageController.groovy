@@ -110,7 +110,7 @@ class ImageController extends ImageResponseController {
             format = new FormatIdentifier(new CytomineFile(fif)).identify(mimeType)
         }
         catch (FormatException ignored) {
-            log.info ignored
+            log.info "" + ignored
             responseFile(file)
             return
         }

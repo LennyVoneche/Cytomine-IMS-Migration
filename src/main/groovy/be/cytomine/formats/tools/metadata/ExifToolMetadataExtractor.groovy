@@ -47,11 +47,13 @@ class ExifToolMetadataExtractor extends MetadataExtractor {
     }
 
     ExifToolMetadataExtractor(def file, def toRemove) {
+        println "ExifToolMetadataExtractor"
         this.file = file
         this.propertiesToRemove += toRemove
     }
 
     def properties() {
+        println "ExifToolMetadataExtractor --> properties"
         def command = Holders.config.cytomine.ims.metadata.exiftool.executable
         def exec = ProcUtils.executeOnShell("$command -All -s -G -j -u -e ${file.absolutePath}")
 
