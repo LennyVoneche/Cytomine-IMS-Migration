@@ -121,9 +121,6 @@ class UploadService {
                 }
             }
         }
-
-        log.info result.toString()
-
         return result
     }
 
@@ -295,32 +292,22 @@ class UploadService {
         log.info "Detected format = $format"
         uploadedFile.set("contentType", format.mimeType)
         uploadedFile.update()
-        println "Format détecté"
 
         if (!abstractImage && !(format instanceof ArchiveFormat)) {
-            println "if (!abstractImage && !(format instanceof ArchiveFormat))"
-
             try {
-                println "if (!abstractImage && !(format instanceof ArchiveFormat)) --> try"
                 def metadata = format.cytomineProperties()
                 println "UploadService.deploy ok metadata : $metadata"
                 abstractImage = createAbstractImage(uploadInfo.userConn, uploadedFile, metadata)
                 result.images.add(abstractImage)
             }
             catch (CytomineException e) {
-                println "if (!abstractImage && !(format instanceof ArchiveFormat)) --> CytomineException"
                 uploadedFile.changeStatus(UploadedFile.Status.ERROR_DEPLOYMENT)
                 throw new DeploymentException(e.getMessage(), result)
             }
 
         }
         if (format instanceof NativeFormat) {
-            println "if (format instanceof NativeFormat)"
-
             uploadedFile.set("status", UploadedFile.Status.DEPLOYING.code)
-            log.info ""  + uploadedFile.get("status")
-            println "if (format instanceof NativeFormat) 1"
-
             if (format instanceof MultipleFilesFormat) {
                 File root = format.getRootFile(currentFile)
                 uploadedFile.set("originalFilename", root.name)
@@ -336,26 +323,18 @@ class UploadService {
 
             try {
                 AbstractSlice slice = createAbstractSlice(uploadInfo.userConn, uploadedFile, abstractImage, format, currentFile)
-                println "if (format instanceof NativeFormat) --> createAbstractSlice"
-
                 result.slices.add(slice)
-                println "if (format instanceof NativeFormat) --> createAbstractSlice 1"
-
                 // fetch to get the last uploadedFile with the image
                 uploadedFile = new UploadedFile().fetch(uploadedFile.id)
-                println "if (format instanceof NativeFormat) --> createAbstractSlice 2"
 
                 if (abstractImage.getLong("uploadedFile") != uploadedFile.getId()) {
                     uploadedFile.changeStatus(UploadedFile.Status.DEPLOYED)
                 }
-                println "if (format instanceof NativeFormat) --> createAbstractSlice 3"
-
             } catch (CytomineException e) {
                 uploadedFile.changeStatus(UploadedFile.Status.ERROR_DEPLOYMENT)
                 throw new DeploymentException(e.getMsg(), result)
             }
         } else {
-            println "if (format instanceof NativeFormat) --> else"
             uploadedFile.changeStatus(UploadedFile.Status.CONVERTING)
 
             def errors = []
@@ -403,23 +382,16 @@ class UploadService {
     }
 
     private AbstractImage createAbstractImage(CytomineConnection userConn, UploadedFile uploadedFile, def metadata) {
-        println "createAbstractImage Debut"
-
         def image = new AbstractImage(uploadedFile, uploadedFile.getStr('originalFilename')).save(userConn)
-        println "createAbstractImage  1"
-
         def props = []
-        println "createAbstractImage  2"
 
         metadata.each {
             props << new Property(image, (String) it.key, (String) it.value)
         }
-        println "createAbstractImage  3"
 
         if (props.size() > 0) {
             log.info "Add ${props.size()} format-dependent properties to ${image}"
 //            log.debug properties
-            println "createAbstractImage  4"
 
             def promises = props.collect {
                 p -> Promises.task {
@@ -433,21 +405,17 @@ class UploadService {
                     }
                 }
             }
-            println "createAbstractImage  5"
 
             Promises.waitAll(promises)
         }
 
         image.extractUsefulProperties()
-        println "createAbstractImage  6"
 
         return image
     }
 
     private AbstractSlice createAbstractSlice(CytomineConnection userConn, UploadedFile uploadedFile, AbstractImage image, Format format, CytomineFile file) {
-        println "createAbstractSlice  debut"
         def slice = new AbstractSlice(image, uploadedFile, format.mimeType, file.c as Integer, file.z as Integer, file.t as Integer).save(userConn)
-        println "createAbstractSlice  fin"
         return slice
     }
 }

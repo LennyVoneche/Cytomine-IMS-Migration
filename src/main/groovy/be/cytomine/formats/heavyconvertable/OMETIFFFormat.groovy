@@ -35,7 +35,6 @@ class OMETIFFFormat extends BioFormatConvertable implements TiffInfoDetector {
 
 
     boolean detect() {
-        println "OMETIFFFormat"
         if (TiffInfoDetector.super.detect())
             return true
 

@@ -43,7 +43,6 @@ abstract class NativeFormat extends Format {
      */
     BufferedImage thumb(TypeConvertingMap params, File actualFile = null) {
         def file = actualFile ?: this.file
-        println "NativeFormat thumb"
         def query = [
                 FIF: file.absolutePath,
                 WID: params.int("maxSize"),
@@ -55,14 +54,8 @@ abstract class NativeFormat extends Format {
                 QLT: (params.format == "jpg") ? 99 : null,
                 CVT: params.format
         ]
-        println "NativeFormat thumb 1 : " + query
         def url = HttpUtils.makeUrl(iipUrl, query)
-        println "NativeFormat thumb 2 : " + url
-
         def tmp = ImageIO.read(new URL(url))
-
-        println "NativeFormat thumb 3 : " + tmp
-
         return tmp
     }
 

@@ -29,10 +29,6 @@ class HttpUtils {
 
     public static String makeUrl(String url, def parameters) {
         if (!url.endsWith("?")) url += "?"
-        println "makeUrl url : " + url
-        println "makeUrl parameters : " + parameters
-        println "makeUrl concatenateParameters(parameters) : " + concatenateParameters(parameters)
-        println "makeUrl url + concatenateParameters(parameters) : " + url + concatenateParameters(parameters)
         return url + concatenateParameters(parameters)
     }
 

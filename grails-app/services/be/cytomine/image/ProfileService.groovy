@@ -242,7 +242,6 @@ class ProfileService {
                         }
 
                         try {
-                            println url
                             BufferedImage bi = getImageFromURL(url)
                             if(tile.format instanceof JPEG2000Format) {
                                 /*

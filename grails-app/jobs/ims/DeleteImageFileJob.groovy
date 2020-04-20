@@ -27,7 +27,6 @@ class DeleteImageFileJob {
         commands.addParams("domain", "uploadedFile")
         commands.addParams("after", (new Date().time - timeMargin).toString())
         commands = commands.fetch()
-        log.info commands.toString()
 
         for (int i = 0; i < commands.size(); i++) {
             DeleteCommand command = (DeleteCommand) commands.list.get(i)

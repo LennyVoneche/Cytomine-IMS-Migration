@@ -51,7 +51,6 @@ abstract class BioFormatConvertable extends NotNativeFormat implements IHeavyCon
     }
 
     def makeRequest(def message) {
-        println "makeRequest 1 Holders.config.cytomine.ims.conversion.bioformats.enabled " +  Holders.config.cytomine.ims.conversion.bioformats.enabled
         if (!(Holders.config.cytomine.ims.conversion.bioformats.enabled as Boolean))
             throw new MiddlewareException("Convertor BioFormat not enabled")
 
@@ -74,19 +73,16 @@ abstract class BioFormatConvertable extends NotNativeFormat implements IHeavyCon
 
     @Override
     def convert() {
-        println "convert 1"
         def message = [
                 path            : this.file.absolutePath,
                 group           : this.group,
                 onlyBiggestSerie: this.onlyBiggestSerie,
                 action          : "convert"
         ]
-        println "convert 2"
 
         def response = makeRequest(message)
         def files = response.files
         def error = response.error
-        println "convert 3"
 
         log.info("BioFormats returned ${files?.size()} files")
 
@@ -99,21 +95,17 @@ abstract class BioFormatConvertable extends NotNativeFormat implements IHeavyCon
     def properties() {
         println "Object.properties() : " + super.properties()
 
-        println "properties 0"
         def properties = super.properties()
-        println "properties 1"
 
         def message = [
                 path: this.file.absolutePath,
                 action: "properties"
         ]
-        println "properties 2"
 
         def response = makeRequest(message)
         if (response == null || response.error != null) {
             throw new MiddlewareException("BioFormats Exception : ${response?.error}")
         }
-        println "properties 3"
 
         properties += response
         return properties

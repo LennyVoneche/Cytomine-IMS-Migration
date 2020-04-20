@@ -94,18 +94,14 @@ abstract class Format {
     }
 
     def properties() {
-        println "Properties"
         return new ExifToolMetadataExtractor(this.file).properties()
     }
 
     def cytomineProperties() {
-        println "cytomineProperties"
         def properties = properties()
-        println "cytomineProperties 0"
         properties << [(PropertyUtils.CYTO_MIMETYPE): this.mimeType]
         properties << [(PropertyUtils.CYTO_EXT): this.file.extension()]
         properties << [(PropertyUtils.CYTO_FORMAT): this.toString()]
-        println "cytomineProperties 1"
 
         cytominePropertyKeys.each { cytoKey, tagKey ->
             if (!tagKey || properties.hasProperty(tagKey as String))
@@ -115,10 +111,8 @@ abstract class Format {
                 properties << [(cytoKey): cytominePropertyParsers.get(cytoKey)(value)]
             }
         }
-        println "cytomineProperties 2"
 
         properties = properties.findAll { it.value != null && !(it as String).isEmpty() }
-        println "cytomineProperties 3"
 
         // Convert resolutions to micron per pixel
         def resolutions = [
@@ -126,7 +120,6 @@ abstract class Format {
                 [valueKey: PropertyUtils.CYTO_Y_RES, unitKey: PropertyUtils.CYTO_Y_RES_UNIT],
                 [valueKey: PropertyUtils.CYTO_Z_RES, unitKey: PropertyUtils.CYTO_Z_RES_UNIT],
         ]
-        println "cytomineProperties 4"
 
         resolutions.each { resolution ->
             def value = (Double) properties[resolution.valueKey]
@@ -141,7 +134,6 @@ abstract class Format {
                 properties.remove(resolution.unitKey)
             }
         }
-        println "cytomineProperties 5"
 
         return properties.findAll { it.value != null && !(it as String).isEmpty() }
     }
